@@ -34,14 +34,22 @@ public class Main {
         }*/
     }
 
+    
+    
+    
     static int states = 0, alpha = 0, Malpha = 0, counter = 0, counter2 = 0, head = 0;
 
     static Scanner sc = new Scanner(System.in);
     static String[] alphabets, Malphabets;
     static Transition[] transitions;
-    static String s = "", t = "", next_alpha = "";
+    static String s = "", t = "", next_alpha = "", curr_alpha = "";
     static ArrayList<Character> tape;
 
+    
+    
+    
+    
+    
     static void runMain() {
         try {
 
@@ -52,13 +60,13 @@ public class Main {
             alpha = Integer.parseInt(sc.next());
             alphabets = new String[alpha];
 
-            Entering_String_Alphabets();
+            Entering_Alphabets(alphabets,alpha);
 
             System.out.print("\nEnter number of machine alphabets: ");
             Malpha = Integer.parseInt(sc.next());
             Malphabets = new String[Malpha];
 
-            Entering_Machine_Alphabets();
+            Entering_Alphabets(Malphabets,Malpha);
 
             System.out.println("\nEnter Transitions: ");
             transitions = new Transition[(states * (alpha + Malpha))];
@@ -72,9 +80,8 @@ public class Main {
             head = Integer.parseInt(sc.next());
 
             tape = new ArrayList<>();
-            for (int i = 0; i < t.length(); i++) {
+            for (int i = 0; i < t.length(); i++) 
                 tape.add(t.charAt(i));
-            }
 
             if (isConfirmed()) {
                 tape.add(Malphabets[0].charAt(0));
@@ -89,130 +96,95 @@ public class Main {
         }
     }
 
+    
+    
+    
+    
+    
     static boolean isConfirmed() {
+        
+        System.out.println("\n\n\n");
 
         System.out.print("Alphabets: ");
-        for (int i = 0; i < alphabets.length; i++) 
-            System.out.print("" + alphabets[i] + "  \n");
+        for (String alphabet : alphabets) 
+            System.out.print("" + alphabet + "  ");
         
 
-        System.out.print("Machine Alphabets: ");
-        for (int i = 0; i < Malphabets.length; i++) 
-            System.out.print("" + Malphabets[i] + "  \n");
+        System.out.print("\nMachine Alphabets: ");
+        for (String Malphabet : Malphabets) 
+            System.out.print("" + Malphabet + "  \n");
         
 
-        System.out.println("Transition Functions: ");
-        for (int i = 0; i < transitions.length; i++) 
-            System.out.print("(" + transitions[i].crr.state + "," + transitions[i].crr.symbol + ") , ("
-                    + transitions[i].next.state + "," + transitions[i].next.symbol + "," + transitions[i].next.action + ")\n");
+        System.out.println("\nTransition Functions: ");
+        for (Transition transition : transitions) 
+            System.out.print("(" + transition.crr.state + "," + transition.crr.symbol + ") , (" 
+                    + transition.next.state + "," + transition.next.symbol + "," + transition.next.action + ")\n");
         
 
-        System.out.println("String: " + t);
-        System.out.println("Intial Postion of Head: " + head);
+        System.out.println("\nString: " + t);
+        System.out.println("\nIntial Postion of Head: " + head);
 
-        System.out.println("\n To Confirm type \"y\".To Cancel Type any:");
-        String s = sc.next();
+        System.out.print("\n\nTo Confirm type \"y\".To Cancel Type any:");
+        s = sc.next();
 
         return s.contains("y") || s.contains("Y");
     }
     
-    static void Entering_String_Alphabets(){
+    
+    
+    
+    
+    
+    static void Entering_Alphabets(String[] alphabets, int alpha){
         for (int i = 0; i < alpha; i++) {
                 System.out.print("\nEnter ");
                 switch (i) {
-                    case 0:
-                        System.out.print("1st ");
-                        break;
-                    case 1:
-                        System.out.print("2nd ");
-                        break;
-                    case 2:
-                        System.out.print("3rd ");
-                        break;
-                    default:
-                        System.out.println("" + i + "th ");
+                    case 0 -> System.out.print("1st ");
+                    case 1 -> System.out.print("2nd ");
+                    case 2 -> System.out.print("3rd ");
+                    default -> System.out.println("" + i + "th ");
                 }
                 System.out.print("alphabet: ");
                 alphabets[i] = sc.next();
             }
     }
 
-    static void Entering_Machine_Alphabets() {
-
-        for (int i = 0; i < Malpha; i++) {
-            System.out.print("\nEnter ");
-            switch (i) {
-                case 0:
-                    System.out.print("1st ");
-                    break;
-                case 1:
-                    System.out.print("2nd ");
-                    break;
-                case 2:
-                    System.out.print("3rd ");
-                    break;
-                default:
-                    System.out.println("" + i + "th ");
-            }
-            System.out.print("alphabet: ");
-            Malphabets[i] = sc.next();
-        }
-
-    }
-
+    
+    
+    
+    
+    
     static void Adding_Transitions() throws Turing_Error {
 
         for (int i = 0; i < (states * (alpha + Malpha)); i++) {
             s = "(";
             System.out.print(s);
             int curr_state = Integer.parseInt(sc.next());
-            if (curr_state > states) 
-                throw new Turing_Error("Current State Must not Exced the Number of States");
+                if (curr_state > states) 
+                    throw new Turing_Error("Current State Must not Exced the Number of States");
             
 
             s += curr_state + ",";
             System.out.print(s);
-            String curr_alpha = sc.next();
-            counter = 0;
-            counter2 = 0;
-            for (int j = 0; j < Malphabets.length; j++) 
-                if (!Malphabets[j].equals(curr_alpha)) 
-                    counter++;
-                
-            
-            for (int j = 0; j < alphabets.length; j++) 
-                if (!alphabets[j].equals(curr_alpha)) 
-                    counter2++;
-                
-            
-            if (counter >= Malphabets.length && counter2 >= alphabets.length) 
-                throw new Turing_Error("Current Alphabet Must be in Alphabets defined earlier");
+            curr_alpha = sc.next();
+            Checking_Input();
+                if (counter >= Malphabets.length && counter2 >= alphabets.length) 
+                    throw new Turing_Error("Current Alphabet Must be in Alphabets defined earlier");
             
 
             s += curr_alpha + ") , (";
             System.out.print(s);
             int next_state = Integer.parseInt(sc.next());
-            if (next_state > states) 
-                throw new Turing_Error("Next State Must not Exced the Number of States");
+                if (next_state > states) 
+                    throw new Turing_Error("Next State Must not Exced the Number of States");
             
 
             s += next_state + ",";
             System.out.print(s);
             next_alpha = sc.next();
-            counter = 0;
-            counter2 = 0;
-            for (int j = 0; j < Malphabets.length; j++) 
-                if (!Malphabets[j].equals(next_alpha)) 
-                    counter++;
-                
-            
-            for (int j = 0; j < alphabets.length; j++) 
-                if (!alphabets[j].equals(next_alpha)) 
-                    counter2++;
-                
-            
-            if (counter2 >= alphabets.length && counter >= Malphabets.length) 
-                throw new Turing_Error("Next Alphabet Must be From Machine Alphabets or String Alphabets");
+            Checking_Input();
+                if (counter2 >= alphabets.length && counter >= Malphabets.length) 
+                    throw new Turing_Error("Next Alphabet Must be From Machine Alphabets or String Alphabets");
             
 
             s += next_alpha + ",";
@@ -220,17 +192,8 @@ public class Main {
             String action = sc.next();
             
             switch (action) {
-                case "Y":
-                case "y":
-                case "N":
-                case "n":
-                case "L":
-                case "l":
-                case "R":
-                case "r":
-                    break;
-                default:
-                    throw new Turing_Error("Action is Undefined. You must select between {Y,y,N,n,R,r,L,l}");
+                case "Y", "y", "N", "n", "L", "l", "R", "r" -> {}
+                default -> throw new Turing_Error("Action is Undefined. You must select between {Y,y,N,n,R,r,L,l}");
             }
 
             s += action + ")";
@@ -241,6 +204,25 @@ public class Main {
             transitions[i] = new Transition(crr, next);
         }
 
+    }
+    
+    
+    
+    
+    
+    
+    static void Checking_Input(){
+        
+        counter = 0;
+        counter2 = 0;
+            for (String Malphabet : Malphabets) 
+                if (!Malphabet.equals(curr_alpha)) 
+                    counter++;
+            
+            for (String alphabet : alphabets) 
+                if (!alphabet.equals(curr_alpha))
+                    counter2++;
+        
     }
 
 }
