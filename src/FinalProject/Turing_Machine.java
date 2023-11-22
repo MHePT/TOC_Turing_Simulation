@@ -25,11 +25,9 @@ public class Turing_Machine {
             outerloop:
             for (int i = 0; i < transitions.length; i++) {
 
-                iserror = false;
-
-                if (i == transitions.length - 1) {
+                if (i == transitions.length - 1) 
                     iserror = true;
-                }
+                
 
                 if (transitions[i].crr.state == state && tape.get(head).equals(transitions[i].crr.symbol)) {
 
@@ -42,21 +40,21 @@ public class Turing_Machine {
                             for (Character c : tape) 
                                 System.out.print(c);
                             
-                            System.out.println(" Y ");
+                            System.out.println("Y ");
                             return;
                         case 'y':
                             System.out.print("Final String = ");
                             for (Character c : tape) 
                                 System.out.print(c);
                             
-                            System.out.println(" Y ");
+                            System.out.println("Y ");
                             return;
                         case 'N':
                             System.out.print("Final String = ");
                             for (Character c : tape) 
                                 System.out.print(c);
                             
-                            System.out.println(" N ");
+                            System.out.println("N ");
                             return;
                         case 'n':
                             System.out.print("Final String = ");
@@ -81,9 +79,8 @@ public class Turing_Machine {
                             throw new Turing_Error("Action is Undefined. You must select between {Y,y,N,n,R,r,L,l}");
                     }
 
-                } else if (iserror) {
+                } else if (iserror) 
                     throw new Turing_Error("The Machine Hanged.Please,Check your transition functions");
-                }
             }
         }
 
